@@ -1,0 +1,22 @@
+{
+  "name": "acmesales",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "DATABASE_URL=postgres://localhost/acmesales nodemon node_modules/mocha/bin/mocha",
+    "start": "node server.js",
+    "start:dev": "DATABASE_URL=postgres://localhost/acmesales PORT=3000  nodemon -e html,js server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.0.2"
+  },
+  "dependencies": {
+    "bluebird": "^3.4.3",
+    "pg": "^6.1.0",
+    "sequelize": "^3.24.1"
+  }
+}
