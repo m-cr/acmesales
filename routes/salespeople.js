@@ -5,35 +5,62 @@ var models = db.models;
 var SalesPerson = models.SalesPerson;
 var Region = models.Region;
 var SalesPersonRegion = models.SalesPersonRegion;
-
+var Promise = require('bluebird');
 module.exports = router;
 
 router.get('/', function(req, res, next){
-	var people = SalesPerson.findAll();
-	var regions = Region.findAll();
-
-
-
-	SalesPerson.findAll({
+	var regions = Region.findAll({
+		where: {},
+		include: [{
+			model: SalesPersonRegion,
+			include: [SalesPerson]
+		}]
+	});
+	var people = SalesPerson.findAll({
 		where: {},
 		include: [{
 			model: SalesPersonRegion,
 			include: [Region]
 		}]
-	})
-	.then(function(salespeople){
-		// console.log(salespeople);
+	});
+	Promise.all([people, regions])
+	.spread(function(people, regions){
+		// console.log(people);
 		res.render('salespeople', {
 			title: 'Acme Sales - Sales People', 
 			tab: 'salespeople',
-			salespeople
+			people, 
+			regions
 		});
 	})
 	.catch(next);	
-
 });
 
 router.post('/', function(req, res, next){
+	SalesPerson.create({
+		name: req.body.name
+	})
+	.then(function(){
+		res.redirect('/salespeople');
+	})
+	.catch(next);
+});
 
-	//res.redirect('/salespeople');
+router.delete('/:personId', function(req, res, next){
+	SalesPersonRegion.destroy({
+		where: {
+			salespersonId: req.params.personId
+		}
+	})
+	.then(function(){
+		SalesPerson.destroy({
+			where: {
+				id: req.params.personId
+			}
+		})
+	})
+	.then(function(){
+		res.redirect('/salespeople');
+	})
+	.catch(next);
 });

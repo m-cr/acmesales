@@ -1,21 +1,52 @@
 {%extends './layout.html'%}
 
 {%block content%}
-	<div class='well'>
-		<form>
-			<input type="text" name="name" value="Name">
-			<button type="submit" class='btn btn-primary'>Add Sales Person</button>
-		</form>
-	</div>
-	{% for person in salespeople %}
-		<salespersonpanel class='panel panel-default'>
-			<div class='panel-heading'>{{person.name}}</div>
-			<div class='panel-body'>
-				<li>
-					{{person.salespersonregions[0].region.zip}}
-				</li>
-				<button class='btn btn-danger'></button>	
+	<div class='container'>
+		<div class='well'>
+			<form action='/salespeople' method='POST'>
+				<input type="text" name="name" value="Name">
+				<button type="submit" class='btn btn-primary'>Add Sales Person</button>
+			</form>
+		</div>
+		{% for person in people %}
+			<div class='panel panel-default'>
+				<div class='panel-heading'>{{person.name}}
+					<form action='/salespeople/{{person.id}}?_method=DELETE' method='POST' style='display: inline'>
+						<button class='btn btn-danger pull-right'>Delete</button>
+						<br clear='all'>
+					</form>
+				</div>
+				<div class='panel-body'>
+					<ul class='list-group'>
+						{% for region in regions %}
+						<li class='list-group-item'>
+							{{region.zip}}
+							
+							{%if person.salespersonregions.length > 0 %}
+								{%if person.salespersonregions[0].region.zip === region.zip%}
+									<form action='/salespersonregions/{{person.id}}/{{region.id}}?_method=DELETE' method='POST' style='display: inline'>
+										<button class='btn btn-danger pull-right'>Remove</button>
+										<br clear='all'>
+									</form>
+								{% else %}
+									<form action='/salespersonregions/{{person.id}}/{{region.id}}' method='POST' style='display: inline'>
+										<button class='btn pull-right'>Add</button>
+										<br clear='all'>
+									</form>
+								{%endif%}
+							{%endif%}
+
+							{% if person.salespersonregions.length === 0 %}
+								<form action='' method='POST' style='display: inline'>
+									<button class='btn pull-right'>Add</button>
+									<br clear='all'>
+								</form>
+							{%endif%}
+						</li>
+						{%endfor%}
+					</ul>
+				</div>
 			</div>
-		</salespersonpanel>
-	{%endfor%}
+		{%endfor%}
+	</div>
 {%endblock%}

@@ -1,22 +1,52 @@
 {%extends './layout.html'%}
 
 {%block content%}
-	<div class='well'>
-		<form>
-			<input type="text" name="zip" value="Zip Code">
-			<button type="submit" class='btn btn-primary'>Add Region</button>
-		</form>
-	</div>
+	<div class='container'>
+		<div class='well'>
+			<form action='/regions' method='POST'>
+				<input type="text" name="zip" value="Zip Code">
+				<button type="submit" class='btn btn-primary'>Add Region</button>
+			</form>
+		</div>
 
-	{% for region in regions %}
-		<salespersonpanel class='panel panel-default'>
-			<div class='panel-heading'>{{region.zip}}</div>
-			<div class='panel-body'>
-				<li>
-					{{region.salespersonregions[0].salesperson.name}}
-				</li>
-				<button class='btn btn-danger'></button>	
+		{% for region in regions %}
+			<div class='panel panel-default'>
+				<div class='panel-heading'>{{region.zip}}
+				<form action='/regions/{{region.id}}?_method=DELETE' method='POST' style='display: inline'>
+						<button class='btn btn-danger pull-right'>Delete</button>
+						<br clear='all'>
+					</form>
+				</div>
+				<div class='panel-body'>
+					<ul class='list-group'>
+						{% for person in people %}
+							<li class='list-group-item'>
+								{{person.name}}
+
+								{%if person.salespersonregions.length > 0 %}
+									{%if person.salespersonregions[0].region.zip === region.zip%}
+										<form action='' method='POST' style='display: inline'>
+											<button class='btn btn-danger pull-right'>Remove</button>
+											<br clear='all'>
+										</form>
+									{% else %}
+										<form action='' method='POST' style='display: inline'>
+											<button class='btn pull-right'>Add</button>
+											<br clear='all'>
+										</form>
+									{%endif%}
+								{%endif%}
+								{% if person.salespersonregions.length === 0 %}
+									<form action='' method='POST' style='display: inline'>
+										<button class='btn pull-right'>Add</button>
+										<br clear='all'>
+									</form>
+								{%endif%}
+							</li>
+						{%endfor%}
+					</ul>
+				</div>
 			</div>
-		</salespersonpanel>
-	{%endfor%}
+		{%endfor%}
+	</div>
 {%endblock%}
