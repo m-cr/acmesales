@@ -23,14 +23,19 @@ router.get('/', function(req, res, next){
 			include: [Region]
 		}]
 	});
-	Promise.all([people, regions])
-	.spread(function(people, regions){
-		// console.log(people);
+	var salespersonregions = SalesPersonRegion.findAll({
+		where: {}
+	});
+
+	Promise.all([people, regions, salespersonregions])
+	.spread(function(people, regions, salespersonregions){
+		console.log(regions[0].salespersonregions);
 		res.render('salespeople', {
 			title: 'Acme Sales - Sales People', 
 			tab: 'salespeople',
 			people, 
-			regions
+			regions,
+			salespersonregions
 		});
 	})
 	.catch(next);	

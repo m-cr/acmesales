@@ -21,27 +21,30 @@
 						{% for region in regions %}
 						<li class='list-group-item'>
 							{{region.zip}}
-							
-							{%if person.salespersonregions.length > 0 %}
-								{%if person.salespersonregions[0].region.zip === region.zip%}
-									<form action='/salespersonregions/{{person.id}}/{{region.id}}?_method=DELETE' method='POST' style='display: inline'>
+							{%if region.salespersonregions.length > 0 %}
+								{%if region.salespersonregions[0].salesperson.name === person.name%}
+									<form action='/salespersonregions/{{person.id}}/{{region.id}}?&backURL=/salespeople&_method=DELETE' method='POST' style='display: inline'>
 										<button class='btn btn-danger pull-right'>Remove</button>
 										<br clear='all'>
 									</form>
 								{% else %}
-									<form action='/salespersonregions/{{person.id}}/{{region.id}}' method='POST' style='display: inline'>
-										<button class='btn pull-right'>Add</button>
+									<form action='/salespersonregions/{{person.id}}/{{region.id}}/?backURL=/salespeople' method='POST' style='display: inline'>
+										<button class='btn pull-right'>AddIn</button>
 										<br clear='all'>
 									</form>
 								{%endif%}
-							{%endif%}
-
-							{% if person.salespersonregions.length === 0 %}
-								<form action='' method='POST' style='display: inline'>
-									<button class='btn pull-right'>Add</button>
+							{%else%}
+								<form action='/salespersonregions/{{person.id}}/{{region.id}}/?backURL=/salespeople' method='POST' style='display: inline'>
+									<button class='btn pull-right'>AddOut</button>
 									<br clear='all'>
 								</form>
 							{%endif%}
+							<!-- {% if person.salespersonregions.length === 0 %}
+								<form action='/salespersonregions/{{person.id}}/{{region.id}}/?backURL=/salespeople' method='POST' style='display: inline'>
+									<button class='btn pull-right'>Add</button>
+									<br clear='all'>
+								</form>
+							{%endif%} -->
 						</li>
 						{%endfor%}
 					</ul>

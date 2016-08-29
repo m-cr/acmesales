@@ -14,8 +14,9 @@ router.post('/:salespersonid/:regionid', function(req, res, next){
 		salespersonId: req.params.salespersonid*1, 
 		regionId: req.params.regionid*1 
 	})
-	.then(function(){
-		res.redirect('/salespeople');
+	.then(function(association){
+		// console.log(association);
+		res.redirect(req.query.backURL);
 	})
 	.catch(next);
 });
@@ -28,7 +29,7 @@ router.delete('/:salespersonid/:regionid', function(req, res, next){
 		}
 	})
 	.then(function(){
-		res.redirect('/salespeople');
+		res.redirect(req.query.backURL);
 	})
 	.catch(next);
 });
