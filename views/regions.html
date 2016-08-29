@@ -7,4 +7,16 @@
 			<button type="submit" class='btn btn-primary'>Add Region</button>
 		</form>
 	</div>
+
+	{% for region in regions %}
+		<salespersonpanel class='panel panel-default'>
+			<div class='panel-heading'>{{region.zip}}</div>
+			<div class='panel-body'>
+				<li>
+					{{region.salespersonregions[0].salesperson.name}}
+				</li>
+				<button class='btn btn-danger'></button>	
+			</div>
+		</salespersonpanel>
+	{%endfor%}
 {%endblock%}

@@ -9,6 +9,11 @@ var SalesPersonRegion = models.SalesPersonRegion;
 module.exports = router;
 
 router.get('/', function(req, res, next){
+	var people = SalesPerson.findAll();
+	var regions = Region.findAll();
+
+
+
 	SalesPerson.findAll({
 		where: {},
 		include: [{
