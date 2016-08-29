@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{title}}</title>
+	<link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.css"/>
+</head>
+<body>
+	<div class='container'>
+		<h1>Acme Sales</h1>
+	</div>
+		<ul class='nav nav-tabs' style='margin-bottom: 10px'>
+			<li {%if tab === 'home'%}class='active'{%endif%}><a href="/">Home</a></li>
+			<li {%if tab === 'salespeople'%}class='active'{%endif%}><a href="/salespeople">Sales People</a></li>
+			<li {%if tab === 'regions'%}class='active'{%endif%}><a href="/regions">Regions</a></li>
+		</ul>
+	{%block content%}
+	{%endblock%}
+</body>
+</html>

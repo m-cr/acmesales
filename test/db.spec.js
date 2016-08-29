@@ -16,10 +16,22 @@ describe('models', function () {
 		})
 		.catch(done);
 	});
-
+	var mike;
 	beforeEach(function(done){
 		db.seed()
 		.then(function(){
+			return SalesPerson.findOne({
+				where: {
+					name: 'Mike'
+				},
+				include: [{
+					model: SalesPersonRegion,
+					include: [Region]
+				}]
+			});
+		})
+		.then(function(_mike){
+			mike = _mike;
 			done();
 		})
 		.catch(done);
@@ -32,7 +44,17 @@ describe('models', function () {
 		done();
 	});
 
-	describe('region')
+	describe('mike', function(){
+		it('is named Mike', function(done){
+			expect(mike.name).to.equal('Mike');
+			done();
+		});
+		it('has a region', function(done){
+			expect(mike.salespersonregions.length).to.equal(1);
+			expect(mike.salespersonregions[0].region.zip).to.equal('11385');
+			done();
+		});
+	});
 });
 
 

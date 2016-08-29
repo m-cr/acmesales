@@ -1,5 +1,7 @@
 var Sequelize = require('sequelize');
-var db = new Sequelize(process.env.DATABASE_URL);
+var db = new Sequelize(process.env.DATABASE_URL, {
+	logging: false
+});
 var Promise = require('bluebird');
 
 var SalesPerson = db.define('salesperson', {
@@ -33,6 +35,22 @@ var seed = function(){
 			Region.create({zip: '11210'}),
 			Region.create({zip: '01776'})
 			])
+			.spread(function(_mike, _chris, _brendan, _ny, _oh, _ma){
+				return Promise.all([
+					SalesPersonRegion.create({ 
+						salespersonId: _mike.id, 
+						regionId: _ny.id 
+					}),
+					SalesPersonRegion.create({ 
+						salespersonId: _brendan.id, 
+						regionId: _oh.id 
+					}),
+					SalesPersonRegion.create({ 
+						salespersonId: _chris.id, 
+						regionId: _ma.id 
+					})
+				]);
+			});
 	});
 };
 
