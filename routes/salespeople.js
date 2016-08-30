@@ -33,7 +33,7 @@ router.get('/', function(req, res, next){
 		res.render('salespeople', {
 			title: 'Acme Sales - Sales People', 
 			tab: 'salespeople',
-			people, 
+			people,
 			regions,
 			salespersonregions
 		});
