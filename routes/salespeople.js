@@ -29,7 +29,6 @@ router.get('/', function(req, res, next){
 
 	Promise.all([people, regions, salespersonregions])
 	.spread(function(people, regions, salespersonregions){
-		console.log(regions[0].salespersonregions);
 		res.render('salespeople', {
 			title: 'Acme Sales - Sales People', 
 			tab: 'salespeople',

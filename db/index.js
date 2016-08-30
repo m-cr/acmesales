@@ -6,6 +6,14 @@ var Promise = require('bluebird');
 
 var SalesPerson = db.define('salesperson', {
 	name: Sequelize.STRING
+},{
+	instanceMethods: {
+		hasRegion: function(regionId){
+			return this.salespersonregions.map(function(spr){
+				return spr.regionId;
+			}).includes(regionId);
+		}
+	}
 });
 
 var Region = db.define('region', {
@@ -29,24 +37,22 @@ var seed = function(){
 	.then(function(){
 		return Promise.all([
 			SalesPerson.create({ name: 'Mike'}),
-			SalesPerson.create({ name: 'Chris'}),
-			SalesPerson.create({ name: 'Brendan'}),
 			Region.create({zip: '11385'}),
 			Region.create({zip: '11210'}),
 			Region.create({zip: '01776'})
 			])
-			.spread(function(_mike, _chris, _brendan, _ny, _oh, _ma){
+			.spread(function(_mike, _ny, _oh, _ma){
 				return Promise.all([
 					SalesPersonRegion.create({ 
 						salespersonId: _mike.id, 
 						regionId: _ny.id 
 					}),
 					SalesPersonRegion.create({ 
-						salespersonId: _brendan.id, 
+						salespersonId: _mike.id, 
 						regionId: _oh.id 
 					}),
 					SalesPersonRegion.create({ 
-						salespersonId: _chris.id, 
+						salespersonId: _mike.id, 
 						regionId: _ma.id 
 					})
 				]);
