@@ -6,7 +6,7 @@
   "scripts": {
     "test": "DATABASE_URL=postgres://localhost/acmesales nodemon node_modules/mocha/bin/mocha",
     "start": "node server.js",
-    "start:dev": "DATABASE_URL=postgres://localhost/acmesales PORT=3000  nodemon -e html,js server.js"
+    "start:dev": "DATABASE_URL=postgres://localhost/acmesales PORT=3000 SYNC=true nodemon -e html,js server.js"
   },
   "author": "",
   "license": "ISC",
