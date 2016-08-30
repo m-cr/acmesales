@@ -9,9 +9,10 @@ var SalesPerson = db.define('salesperson', {
 },{
 	instanceMethods: {
 		hasRegion: function(regionId){
-			return this.salespersonregions.map(function(spr){
+			var mappedAr = this.salespersonregions.map(function(spr){
 				return spr.regionId;
-			}).includes(regionId);
+			});
+			return mappedAr.includes(regionId);
 		}
 	}
 });
