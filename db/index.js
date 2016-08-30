@@ -9,9 +9,16 @@ var SalesPerson = db.define('salesperson', {
 },{
 	instanceMethods: {
 		hasRegion: function(regionId){
-			return this.salespersonregions.map(function(spr){
-				return spr.regionId;
-			}).includes(regionId);
+			var hasRegion = false;
+			for(var i = 0; i < this.salespersonregions.length; i ++){
+				if(this.salespersonregions[i].regionId === regionId){
+					hasRegion = true;
+				}
+			}
+			return hasRegion;
+			// return this.salespersonregions.map(function(spr){
+			// 	return spr.regionId;
+			// }).includes(regionId);
 		}
 	}
 });
