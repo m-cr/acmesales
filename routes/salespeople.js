@@ -9,6 +9,7 @@ var Promise = require('bluebird');
 module.exports = router;
 
 router.get('/', function(req, res, next){
+  //again figure out if you need both includes
 	var regions = Region.findAll({
 		where: {},
 		include: [{
@@ -23,9 +24,8 @@ router.get('/', function(req, res, next){
 			include: [Region]
 		}]
 	});
-	var salespersonregions = SalesPersonRegion.findAll({
-		where: {}
-	});
+  //interesting because you don't use this in regions get route-- and since these are inverses of the same thing, guessing you might not need it here..
+	var salespersonregions = SalesPersonRegion.findAll();
 
 	Promise.all([people, regions, salespersonregions])
 	.spread(function(people, regions, salespersonregions){
@@ -50,16 +50,16 @@ router.post('/', function(req, res, next){
 	.catch(next);
 });
 
-router.delete('/:personId', function(req, res, next){
+router.delete('/:id', function(req, res, next){
 	SalesPersonRegion.destroy({
 		where: {
-			salespersonId: req.params.personId
+			salespersonId: req.params.id 
 		}
 	})
 	.then(function(){
 		SalesPerson.destroy({
 			where: {
-				id: req.params.personId
+				id: req.params.id
 			}
 		})
 	})

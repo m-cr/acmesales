@@ -16,9 +16,6 @@ var SalesPerson = db.define('salesperson', {
 				}
 			}
 			return hasRegion;
-			// return this.salespersonregions.map(function(spr){
-			// 	return spr.regionId;
-			// }).includes(regionId);
 		}
 	}
 });
@@ -27,12 +24,14 @@ var Region = db.define('region', {
 	zip: Sequelize.STRING
 });
 
+//maybe use underscores for sales_person_region-- or maybe salesPersonRegion?
 var SalesPersonRegion = db.define('salespersonregion', {});
 
 var sync = function(){
 	return db.sync({force:true});
 };
 
+//I LIKE IT
 var seed = function(){
 	return SalesPersonRegion.destroy({where: {} })
 	.then(function(){

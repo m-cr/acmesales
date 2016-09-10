@@ -20,6 +20,7 @@
 				<div class='panel-body'>
 					<ul class='list-group'>
 						{% for person in people %}
+              you could also have an inverse.. region.hasPerson(person.id)
 							{%if person.hasRegion(region.id) %}
 								<li class='list-group-item list-group-item-success'>
 									{{person.name}}

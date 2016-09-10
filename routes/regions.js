@@ -10,6 +10,7 @@ var Promise = require('bluebird');
 module.exports = router;
 
 router.get('/', function(req, res, next){
+  //totall fine.. but not sure you need the includes on both models.. just a thought
 	var regions = Region.findAll({
 		where: {},
 		include: [{
@@ -46,10 +47,10 @@ router.post('/', function(req, res, next){
 	.catch(next);
 });
 
-router.delete('/:regionId', function(req, res, next){
+router.delete('/:id', function(req, res, next){
 	SalesPersonRegion.destroy({
 		where: {
-			regionId: req.params.regionId
+			regionId: req.params.id
 		}
 	})
 	.then(function(){
